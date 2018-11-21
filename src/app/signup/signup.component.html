@@ -1,0 +1,36 @@
+<div class="container ">
+  <h2>Registration form</h2>
+  <div class="row">
+    <div class="col-md-4 col-md-4 col-md-offset-4">
+      <form class="form-horizontal" (submit) ='signupSubmit(f)' #f='ngForm' >
+        <div class="form-group">
+          <label for="name">User Name:</label>
+          <input type="email" name='name' class="form-control" id="name" required ngModel #nameInput ='ngModel'>
+          <p class='error' style ='text-align:left' *ngIf = 'nameInput.invalid && nameInput.touched'>* User name is Required</p>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email address:</label>
+          <input type="email" name='email' class="form-control" id="email" required ngModel #emailInput ='ngModel' email>
+          <p class='error' style ='text-align:left' *ngIf = 'emailInput.invalid && emailInput.touched && emailInput.dirty'>* Enter a valid Email Address</p>
+          <p class='error' style ='text-align:left' *ngIf = 'emailInput.invalid && emailInput.touched && !emailInput.dirty'>* Email Address is Required</p>
+        </div>
+
+        <div class="form-group">
+          <label for="pwd">Password:</label>
+          <input type="password" name='password' class="form-control" id="pwd" required ngModel #passwordInput ='ngModel'>
+          <p class='error' style ='text-align:left' *ngIf ='passwordInput.invalid && passwordInput.touched'>* Password is required</p>
+
+        </div>
+
+        <div class="form-group">
+          <button type="submit" style ="float:left;width:150px" class='btn btn-primary' [disabled] ='!(f.valid)' name="button">SignUp</button>
+          <a routerLink='/login'><button style ="float:right;width:150px" type="button" class='btn btn-primary' name="button">Login</button></a>
+
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+</div>

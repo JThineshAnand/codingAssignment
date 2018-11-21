@@ -1,0 +1,6 @@
+,<h5>Here is the list of Registered Users</h5>
+<div class="col-md-4 col-md-offset-4">
+  <ul class="list-group" *ngFor ='let user of users'>
+    <li class="list-group-item">{{user.name }}<span class="badge">{{user.email}}</span> </li>
+  </ul>
+</div>
