@@ -24,11 +24,13 @@ app.post('/api/signup',(req,res,next)=>{
     console.log(user);
 
     user.save().then((user)=>{
-      console.log('User created');
-      res.json(user);
+      return res.status(200).json({
+        message:'Successfully Registered. Login Now'
+      });
     }).catch((err)=>{
-      console.log('Error in saving user');
-      res.json(err);
+      return res.status(200).json({
+        message:'Registration Failed'
+      });
     });
 });
 
@@ -39,13 +41,13 @@ app.post('/api/login',(req,res,next)=>{
     .then(user=>{
       if(!user){
 
-        return res.status(401).json({
+        return res.status(200).json({
           message:'User Email does not exist'
         });
       }
       if(!user.comparePassword(req.body.password)){
 
-        return res.status(401).json({
+        return res.status(200).json({
           message:'Invalid Password'
         });
       }

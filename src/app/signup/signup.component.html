@@ -3,6 +3,14 @@
   <div class="row">
     <div class="col-md-4 col-md-4 col-md-offset-4">
       <form class="form-horizontal" (submit) ='signupSubmit(f)' #f='ngForm' >
+        <div class="alert alert-danger" *ngIf ='errorMessage!=null && errorMessage!="Successfully Registered. Login Now"'>
+            <strong>{{errorMessage}}</strong>
+        </div>
+        <div class="alert alert-success" *ngIf ='errorMessage!=null && errorMessage=="Successfully Registered. Login Now"'>
+            <strong>{{errorMessage}}</strong>
+        </div>
+
+
         <div class="form-group">
           <label for="name">User Name:</label>
           <input type="email" name='name' class="form-control" id="name" required ngModel #nameInput ='ngModel'>

@@ -14,13 +14,18 @@ export class AuthService {
 
   private authStatusListener = new Subject<boolean>();
   private registeredUsersListener = new Subject<any>();
+  private errorMessageListener = new Subject<any>();
 
   constructor(private http: HttpClient, private router: Router){
 
   }
 
   getRegisteredUsersListener(){
-    return this.registeredUsersListener;
+    return this.registeredUsersListener.asObservable();
+  }
+
+  getErrorMessageListener(){
+    return this.errorMessageListener.asObservable();
   }
 
   getUsers(){
@@ -33,10 +38,10 @@ export class AuthService {
 
   createUser(name: string, email: string, password: string){
     const signUpData: SignUpData = {name:name,email:email, password:password};
-    this.http.post('http://localhost:3000/api/signup',signUpData)
+    this.http.post<any>('http://localhost:3000/api/signup',signUpData)
     .subscribe(response=>{
-      console.log('------------------------------------');
-      console.log(response);
+
+      this.errorMessageListener.next(response.message);
     });
   }
 
@@ -50,17 +55,21 @@ export class AuthService {
 
   loginUser(email:string,password:string){
     const authdata: AuthData = {email:email,password:password};
-    this.http.post<{token: string}>('http://localhost:3000/api/login',authdata)
+    this.http.post<any>('http://localhost:3000/api/login',authdata)
       .subscribe(response=>{
-      
-        this.token = response.token;
-
-        if(this.token){
-          this.isAuthenticated = true;
-          this.authStatusListener.next(true);
+        if(response.message){
+          this.errorMessageListener.next(response.message);
         }
+        else{
+          this.token = response.token;
 
-        this.router.navigate(['registeredUsers']);
+          if(this.token){
+            this.isAuthenticated = true;
+            this.authStatusListener.next(true);
+          }
+
+          this.router.navigate(['registeredUsers']);
+        }
 
       });
   }
